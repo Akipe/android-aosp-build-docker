@@ -1,7 +1,9 @@
 # todo : https://android.googlesource.com/platform/build/+/master/tools/docker/Dockerfile
 
 # android-build-image with Ubuntu
-# - https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
+# https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
+# https://source.android.com/docs/setup/start/initializing
+# https://source.android.com/docs/setup/start/older-versions
 
 FROM docker.io/library/ubuntu:12.04
 
@@ -26,13 +28,28 @@ ENV \
 ### Init Archlinux
 ######
 
+RUN rm /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise-security main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
+    && cat /etc/apt/sources.list
+
 # Upgrade Archlinux and install devel packages
+# RUN sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list \
 RUN apt-get update \
     && apt-get dist-upgrade --yes \
-    && apt-get remove --yes \
-        openjdk-* \
-        icedtea-* \
+    && apt-get -f --yes install \
+    # && apt-get remove --yes \
+    #     openjdk-* \
+    #     icedtea-* \
     && apt-get install --yes \
+        cpp \
+        g++ \
+    && apt-get install --yes \
+        # gcc g++ \
+        dpkg-dev \
         bc \
         bison \
         build-essential \
@@ -49,7 +66,7 @@ RUN apt-get update \
         lib32readline-dev \
         lib32z-dev \
         lib32z1-dev \
-        liblz4-tool \
+        # liblz4-tool \
         libc6-dev-i386 \
         libgl1-mesa-dev \
         libncurses5 \
@@ -64,11 +81,10 @@ RUN apt-get update \
         python-pip \
         python-virtualenv \
         python3-dev \
-        python3-pip \
+        # python3-pip \
         lzop \
         rsync \
         schedtool \
-        software-properties-common \
         squashfs-tools \
         sudo \
         unzip \
@@ -83,9 +99,16 @@ RUN apt-get update \
         tofrodos \
         python-markdown \
         zlib1g-dev:i386 \
+        software-properties-common \
+        python-software-properties \
+        # openjdk-8-jdk \
+        # openjdk-7-jdk
+    && apt-get install --yes --no-install-recommends openjdk-7-jdk \
     && add-apt-repository ppa:openjdk-r/ppa --yes \
     && apt-get update \
-    && apt-get install openjdk-8-jdk --yes
+    && apt-get dist-upgrade -y \
+    && apt-get install openjdk-8-jre openjdk-8-jdk-headless openjdk-8-jdk -f --yes
+    # && ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
         
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
     && chmod a+x /usr/bin/repo
@@ -104,15 +127,14 @@ RUN groupadd --gid $GID --force builder \
     && chown -R builder:builder /home/builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
-USER builder
 
 ######
 ### Android build tools
 ######
 
 # Create working directory
-RUN sudo mkdir /android \
-    && sudo chown -R builder:builder /android
+RUN mkdir /android \
+    && chown -R builder:builder /android
 
 WORKDIR /android
 
@@ -123,7 +145,9 @@ RUN virtualenv --system-site-packages venv
 
 COPY ./entrypoint.sh /
 
-RUN sudo chmod +x /entrypoint.sh \
-    && sudo chown -R builder:builder /entrypoint.sh
+RUN chmod +x /entrypoint.sh \
+    && chown -R builder:builder /entrypoint.sh
+
+USER builder
 
 CMD /entrypoint.sh

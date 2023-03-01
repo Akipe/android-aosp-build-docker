@@ -1,7 +1,8 @@
 # todo : https://android.googlesource.com/platform/build/+/master/tools/docker/Dockerfile
 
 # android-build-image with Ubuntu
-# - https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
+# https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
+# https://source.android.com/docs/setup/start/initializing
 
 FROM docker.io/library/ubuntu:18.04
 
@@ -25,6 +26,8 @@ ENV \
 ######
 ### Init Archlinux
 ######
+
+RUN cat /etc/apt/sources.list
 
 # Install the build packages
 RUN apt-get update \
@@ -70,6 +73,9 @@ RUN apt-get update \
         openjdk-8-jdk \
         optipng \
         pngcrush \
+        python3-dev \
+        python3-networkx \
+        python3-pip \
         python-dev \
         python-networkx \
         python-pip \
@@ -81,7 +87,11 @@ RUN apt-get update \
         x11proto-core-dev \
         xsltproc \
         zip \
-        zlib1g-dev
+        zlib1g-dev \
+        fontconfig \
+        libelf-dev \
+        software-properties-common \
+        wget
 
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
     && chmod a+x /usr/bin/repo
@@ -98,16 +108,13 @@ RUN groupadd --gid $GID --force builder \
     && chown -R builder:builder /home/builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
-
-USER builder
-
 ######
 ### Android build tools
 ######
 
 # Create working directory
-RUN sudo mkdir /android \
-    && sudo chown -R builder:builder /android
+RUN mkdir /android \
+    && chown -R builder:builder /android
 
 WORKDIR /android
 
@@ -118,7 +125,9 @@ RUN virtualenv --system-site-packages venv
 
 COPY ./entrypoint.sh /
 
-RUN sudo chmod +x /entrypoint.sh \
-    && sudo chown -R builder:builder /entrypoint.sh
+RUN chmod +x /entrypoint.sh \
+    && chown -R builder:builder /entrypoint.sh
+
+USER builder
 
 CMD /entrypoint.sh

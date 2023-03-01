@@ -1,7 +1,9 @@
 # todo : https://android.googlesource.com/platform/build/+/master/tools/docker/Dockerfile
 
 # android-build-image with Ubuntu
-# - https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
+# https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
+# https://source.android.com/docs/setup/start/initializing
+# https://source.android.com/docs/setup/start/older-versions
 
 FROM docker.io/library/ubuntu:10.04
 
@@ -26,65 +28,55 @@ ENV \
 ### Init Archlinux
 ######
 
+RUN rm /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid-security main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
+    && cat /etc/apt/sources.list
+
+RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/70-allow-unauthenticated
+
 # Upgrade Archlinux and install devel packages
 RUN apt-get update \
+    && echo "udev hold" | dpkg --set-selections \
+    && echo "plymouth hold" | dpkg --set-selections \
     && apt-get dist-upgrade --yes \
-    && apt-get remove --yes \
-        openjdk-* \
-        icedtea-* \
     && apt-get install --yes \
-        bc \
-        bison \
-        build-essential \
-        ccache \
-        curl \
-        flex \
-        g++-multilib \
-        gcc-multilib \
-        git \
+        git-core \
         gnupg \
+        flex \
+        bison \
         gperf \
-        imagemagick \
-        lib32ncurses5-dev \
-        lib32readline-dev \
-        lib32z-dev \
-        lib32z1-dev \
-        liblz4-tool \
-        libgl1-mesa-dev \
-        libncurses5 \
-        libncurses5-dev \
-        libsdl1.2-dev \
-        libssl-dev \
-        libwxgtk2.8-dev \
-        libx11-dev \
-        libxml2 \
-        libxml2-utils \
-        pngcrush \
-        python-pip \
-        python-virtualenv \
-        python3-dev \
-        python3-pip \
-        lzop \
-        rsync \
-        schedtool \
-        software-properties-common \
-        squashfs-tools \
-        sudo \
-        unzip \
-        x11proto-core-dev \
-        xsltproc \
+        build-essential \
         zip \
+        curl \
         zlib1g-dev \
         libc6-dev \
+        lib32ncurses5-dev \
         ia32-libs \
+        x11proto-core-dev \
+        libx11-dev \
         lib32readline5-dev \
+        lib32z-dev \
+        libgl1-mesa-dev \
         mingw32 \
         tofrodos \
         python-markdown \
-    && add-apt-repository ppa:openjdk-r/ppa --yes \
+        libxml2-utils \
+        xsltproc \
+        python-pip \
+        python-virtualenv \
+        python-software-properties \
+        sudo \
+    # && apt-get install --yes --no-install-recommends openjdk-7-jdk
+    && add-apt-repository ppa:openjdk-r/ppa \
     && apt-get update \
-    && apt-get install openjdk-8-jdk --yes
-        
+    && apt-get dist-upgrade -y \
+    && apt-get install --no-install-recommends openjdk-7-jdk openjdk-6-jdk -f --yes \
+    && ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
+
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
     && chmod a+x /usr/bin/repo
 
@@ -100,27 +92,26 @@ RUN groupadd --gid $GID --force builder \
     && chown -R builder:builder /home/builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
-
-USER builder
-
 ######
 ### Android build tools
 ######
 
 # Create working directory
-RUN sudo mkdir /android \
-    && sudo chown -R builder:builder /android
+RUN mkdir /android \
+    && chown -R builder:builder /android
 
 WORKDIR /android
 
 # Configure Python version
-RUN virtualenv --system-site-packages venv
+# RUN virtualenv --system-site-packages venv
 #    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
 #    && source venv/bin/activate
 
 COPY ./entrypoint.sh /
 
-RUN sudo chmod +x /entrypoint.sh \
-    && sudo chown -R builder:builder /entrypoint.sh
+RUN chmod +x /entrypoint.sh \
+    && chown -R builder:builder /entrypoint.sh
+
+USER builder
 
 CMD /entrypoint.sh

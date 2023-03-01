@@ -51,7 +51,6 @@ RUN pacman -Syyu --noprogressbar --noconfirm --needed \
         gradle \
         imagemagick \
         inetutils \
-        java-environment \
         jdk8-openjdk \
         lib32-gcc-libs \
         lib32-ncurses \
@@ -73,7 +72,6 @@ RUN pacman -Syyu --noprogressbar --noconfirm --needed \
         ttf-dejavu \
         unzip \
         vim \
-        wxgtk2 \
         zip \
         zlib
 
@@ -112,9 +110,9 @@ RUN git clone https://aur.archlinux.org/yay.git /tmp/yay \
 RUN yay -S --noprogressbar --needed --noconfirm \
         lib32-ncurses5-compat-libs \
         ncurses5-compat-libs \
-        xml2
-        #aosp-devel \
-        #lineageos-devel \
+        xml2 \
+        aosp-devel \
+        lineageos-devel
 
 # Create working directory
 RUN sudo mkdir /android \
