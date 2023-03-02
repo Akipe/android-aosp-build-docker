@@ -61,7 +61,6 @@ jobs:
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:latest
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-18.04
           labels: |
-            org.opencontainers.image.title="Android AOSP build image"
             org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -84,7 +83,6 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-14.04
           labels: |
-            org.opencontainers.image.title="Android AOSP build image"
             org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -104,7 +102,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            org.opencontainers.image.title="Android AOSP build image"
             org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -127,7 +124,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            org.opencontainers.image.title="Android AOSP build image"
             org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -153,7 +149,6 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:archlinux
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:archlinux
           labels: |
-            org.opencontainers.image.title="Android AOSP build image"
             org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"

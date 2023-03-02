@@ -1,6 +1,6 @@
 FROM docker.io/library/ubuntu:12.04
 
-LABEL org.opencontainers.image.title="Android AOSP build image"
+# LABEL org.opencontainers.image.title="Android AOSP build image"
 LABEL org.opencontainers.image.description="Android AOSP container for build system"
 LABEL org.opencontainers.image.url=https://github.com/Akipe/android-aosp-build-docker
 LABEL org.opencontainers.image.authors="Julien Milletre Akipe <code.julien@milletre.fr>"
