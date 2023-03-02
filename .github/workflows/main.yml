@@ -13,15 +13,11 @@ jobs:
       -
         name: Set build rfc 3339 date
         run: |
-          echo "BUILD_DATE_RFC3339=$(date --rfc-3339=date)" >> ${GITHUB_ENV}
+          echo "build_date_rfc3339=$(date --rfc-3339=date)" >> ${GITHUB_ENV}
       -
         name: Set build date
         run: |
-          echo "BUILD_DATE=$(date +'%Y.%m.%d')" >> ${GITHUB_ENV}
-      -
-        name: Set current commit hash
-        run: |
-          echo "BUILD_COMMIT_HASH=$(git rev-parse HEAD)" >> ${GITHUB_ENV}
+          echo "build_date=$(date +'%Y.%m.%d')" >> ${GITHUB_ENV}
       -
         name: Checkout
         uses: actions/checkout@v3
@@ -59,9 +55,9 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/android-aosp-build:latest
             ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-18.04
           labels: |
-            org.opencontainers.image.version=ubuntu-18.04-${{ BUILD_DATE }}
-            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
-            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+            org.opencontainers.image.version=ubuntu-18.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
       -
         name: Build and push Ubuntu 14.04
         uses: docker/build-push-action@v4
@@ -75,9 +71,9 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
             ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-14.04
           labels: |
-            org.opencontainers.image.version=ubuntu-14.04-${{ BUILD_DATE }}
-            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
-            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+            org.opencontainers.image.version=ubuntu-14.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
       -
         name: Build and push Ubuntu 12.04
         uses: docker/build-push-action@v4
@@ -91,9 +87,9 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-12.04
             ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-12.04
           labels: |
-            org.opencontainers.image.version=ubuntu-12.04-${{ BUILD_DATE }}
-            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
-            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+            org.opencontainers.image.version=ubuntu-12.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
       -
         name: Build and push Ubuntu 10.04
         uses: docker/build-push-action@v4
@@ -107,9 +103,9 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-10.04
             ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-10.04
           labels: |
-            org.opencontainers.image.version=ubuntu-10.04-${{ BUILD_DATE }}
-            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
-            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+            org.opencontainers.image.version=ubuntu-10.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
       -
         name: Build and push Archlinux
         uses: docker/build-push-action@v4
@@ -123,6 +119,6 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:archlinux
             ghcr.io/${{ github.repository_owner }}/android-aosp-build:archlinux
           labels: |
-            org.opencontainers.image.version=archlinux-${{ BUILD_DATE }}
-            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
-            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+            org.opencontainers.image.version=archlinux-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
