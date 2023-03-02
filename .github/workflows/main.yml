@@ -58,14 +58,13 @@ jobs:
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:latest
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:latest
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-18.04
           labels: |
-            org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
-            org.opencontainers.image.licenses=MIT
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=ubuntu-18.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -83,11 +82,9 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-14.04
           labels: |
-            org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
-            org.opencontainers.image.licenses=MIT
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=ubuntu-14.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -102,11 +99,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
-            org.opencontainers.image.licenses=MIT
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-12.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-12.04
@@ -124,11 +119,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
-            org.opencontainers.image.licenses=MIT
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-10.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-10.04
@@ -149,11 +142,9 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:archlinux
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:archlinux
           labels: |
-            org.opencontainers.image.description="Android AOSP container for build system"
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
-            org.opencontainers.image.licenses=MIT
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=archlinux-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
