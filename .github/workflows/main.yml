@@ -19,6 +19,12 @@ jobs:
         run: |
           echo "build_date=$(date +'%Y.%m.%d')" >> ${GITHUB_ENV}
       -
+        name: Set lower case owner name
+        run: |
+          echo "repository_owner_lc=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
+      -
         name: Checkout
         uses: actions/checkout@v3
       -
@@ -38,7 +44,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: ${{ env.repository_owner_lc }}
           password: ${{ secrets.PAT }}
       -
         name: Build and push Ubuntu 18.04
@@ -52,8 +58,8 @@ jobs:
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:latest
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
-            ghcr.io/${{ github.repository_owner }}/android-aosp-build:latest
-            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:latest
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-18.04
           labels: |
             org.opencontainers.image.version=ubuntu-18.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -69,7 +75,7 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
-            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-14.04
           labels: |
             org.opencontainers.image.version=ubuntu-14.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -85,7 +91,7 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-12.04
-            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-12.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-12.04
           labels: |
             org.opencontainers.image.version=ubuntu-12.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -101,7 +107,7 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-10.04
-            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-10.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-10.04
           labels: |
             org.opencontainers.image.version=ubuntu-10.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -117,7 +123,7 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:archlinux
-            ghcr.io/${{ github.repository_owner }}/android-aosp-build:archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:archlinux
           labels: |
             org.opencontainers.image.version=archlinux-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
