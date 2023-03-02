@@ -1,0 +1,128 @@
+name: main
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  push:
+    branches: [ "main" ]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Set build rfc 3339 date
+        run: |
+          echo "BUILD_DATE_RFC3339=$(date --rfc-3339=date)" >> ${GITHUB_ENV}
+      -
+        name: Set build date
+        run: |
+          echo "BUILD_DATE=$(date +'%Y.%m.%d')" >> ${GITHUB_ENV}
+      -
+        name: Set current commit hash
+        run: |
+          echo "BUILD_COMMIT_HASH=$(git rev-parse HEAD)" >> ${GITHUB_ENV}
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.USERNAME_DH }}
+          password: ${{ secrets.TOKEN_DH }}
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+      -
+        name: Build and push Ubuntu 18.04
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/ubuntu
+          file: ./images/ubuntu/Dockerfile_18_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:latest
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
+            ghcr.io/${{ github.repository_owner }}/android-aosp-build:latest
+            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-18.04
+          labels: |
+            org.opencontainers.image.version=ubuntu-18.04-${{ BUILD_DATE }}
+            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
+            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+      -
+        name: Build and push Ubuntu 14.04
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/ubuntu
+          file: ./images/ubuntu/Dockerfile_14_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
+            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-14.04
+          labels: |
+            org.opencontainers.image.version=ubuntu-14.04-${{ BUILD_DATE }}
+            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
+            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+      -
+        name: Build and push Ubuntu 12.04
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/ubuntu
+          file: ./images/ubuntu/Dockerfile_12_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-12.04
+            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-12.04
+          labels: |
+            org.opencontainers.image.version=ubuntu-12.04-${{ BUILD_DATE }}
+            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
+            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+      -
+        name: Build and push Ubuntu 10.04
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/ubuntu
+          file: ./images/ubuntu/Dockerfile_10_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-10.04
+            ghcr.io/${{ github.repository_owner }}/android-aosp-build:ubuntu-10.04
+          labels: |
+            org.opencontainers.image.version=ubuntu-10.04-${{ BUILD_DATE }}
+            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
+            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
+      -
+        name: Build and push Archlinux
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/archlinux
+          file: ./images/archlinux/Dockerfile
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:archlinux
+            ghcr.io/${{ github.repository_owner }}/android-aosp-build:archlinux
+          labels: |
+            org.opencontainers.image.version=archlinux-${{ BUILD_DATE }}
+            org.opencontainers.image.revision=${{ BUILD_COMMIT_HASH }}
+            org.opencontainers.image.created=${{ BUILD_DATE_RFC3339 }}
