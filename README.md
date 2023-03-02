@@ -29,4 +29,4 @@ Resources used for creating this images :
 
 ## License
 
-MIT License > [LICENSE](LICENSE)
+[MIT License](LICENSE)
