@@ -5,10 +5,7 @@ LABEL org.opencontainers.image.description="Android AOSP container for build sys
 LABEL org.opencontainers.image.url=https://github.com/Akipe/android-aosp-build-docker
 LABEL org.opencontainers.image.authors="Julien Milletre Akipe <code.julien@milletre.fr>"
 LABEL org.opencontainers.image.licenses=MIT
-# LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.source=https://github.com/Akipe/android-aosp-build-docker
-# LABEL org.opencontainers.image.version=ubuntu-12.04-$BUILD_DATE
-# LABEL org.opencontainers.image.revision=$BUILD_SOURCE_CONTROL_REVISION
 
 ENV \
     # user
@@ -25,8 +22,7 @@ ENV \
     # other
     LC_ALL=C
 
-# Init Archlinux
-
+# Change packages repositories
 RUN rm /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise main restricted universe multiverse" >> /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise-updates main restricted universe multiverse" >> /etc/apt/sources.list \
@@ -34,7 +30,7 @@ RUN rm /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise-backports main restricted universe multiverse" >> /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ precise-proposed main restricted universe multiverse" >> /etc/apt/sources.list
 
-# Upgrade Archlinux and install devel packages
+# Install and upgrades packages
 RUN apt-get update \
     && apt-get dist-upgrade --yes \
     && apt-get -f --yes install \
@@ -92,16 +88,24 @@ RUN apt-get update \
         zlib1g-dev:i386 \
         software-properties-common \
         python-software-properties \
-    && apt-get install --yes --no-install-recommends openjdk-7-jdk \
-    && add-apt-repository ppa:openjdk-r/ppa --yes \
-    && apt-get update \
-    && apt-get dist-upgrade -y \
-    && apt-get install -f --yes \
-        openjdk-8-jre \
-        openjdk-8-jdk-headless \
-        openjdk-8-jdk
-    # && ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
-        
+        wget \
+    && apt-get install --yes --no-install-recommends openjdk-7-jdk
+
+# Install openjdk 8
+RUN wget -O /tmp/openjdk-8-jre-headless.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre-headless_8u45-b14-1_amd64.deb \
+    && wget -O /tmp/openjdk-8-jre.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre_8u45-b14-1_amd64.deb \
+    && wget -O /tmp/openjdk-8-jdk.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jdk_8u45-b14-1_amd64.deb \
+    && dpkg -i \
+        /tmp/openjdk-8-jdk.deb \
+        /tmp/openjdk-8-jre.deb \
+        /tmp/openjdk-8-jre-headless.deb \
+    && rm \
+        /tmp/openjdk-8-jdk.deb \
+        /tmp/openjdk-8-jre.deb \
+        /tmp/openjdk-8-jre-headless.deb \
+    && apt-get install --yes -f
+
+# Install repo
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
     && chmod a+x /usr/bin/repo
 
@@ -110,16 +114,13 @@ RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.
 # RUN pip install virtualenv
 
 # Create user
-
 RUN groupadd --gid $GID --force builder \
     && useradd --gid $GID --uid $UID --non-unique builder \
     && mkdir /home/builder \
     && chown -R builder:builder /home/builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
-# Android build tools
-
-# Create working directory
+# Create the working directory
 RUN mkdir /android \
     && chown -R builder:builder /android
 
@@ -130,11 +131,10 @@ RUN virtualenv --system-site-packages venv
 #    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
 #    && source venv/bin/activate
 
+# Set the entrypoint command
 COPY ./assets/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh \
     && chown -R builder:builder /entrypoint.sh
-
-USER builder
 
 CMD /entrypoint.sh

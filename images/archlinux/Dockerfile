@@ -5,10 +5,7 @@ LABEL org.opencontainers.image.description="Android AOSP container for build sys
 LABEL org.opencontainers.image.url=https://github.com/Akipe/android-aosp-build-docker
 LABEL org.opencontainers.image.authors="Julien Milletre Akipe <code.julien@milletre.fr>"
 LABEL org.opencontainers.image.licenses=MIT
-# LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.source=https://github.com/Akipe/android-aosp-build-docker
-# LABEL org.opencontainers.image.version=archlinux-$BUILD_DATE
-# LABEL org.opencontainers.image.revision=$BUILD_SOURCE_CONTROL_REVISION
 
 ENV \
     # user
@@ -25,17 +22,12 @@ ENV \
     # other
     LC_ALL=C
 
-# Init Archlinux
-
 # Enable Multilib repository
-#RUN sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
-#RUN sed -i 's/[community]/[community]\\nInclude = /etc/pacman.d/mirrorlist\\n[multilib]"/g' /etc/pacman.conf \
-#RUN echo "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" > /etc/pacman.conf
 COPY ./assets/pacman.conf /etc/pacman.conf
 
 RUN cat /etc/pacman.conf
 
-# Install packages
+# Install and upgrades packages
 RUN pacman -Syyu --noprogressbar --noconfirm --needed \
         base-devel \
         bc \
@@ -77,14 +69,13 @@ RUN pacman -Syyu --noprogressbar --noconfirm --needed \
         zlib
 
 # Create user
-
 RUN groupadd --gid $GID --force build \
     && useradd --gid $GID --uid $UID --non-unique build \
     && mkdir /home/build \
     && chown -R build:build /home/build \
     && echo "build ALL=NOPASSWD: ALL" > /etc/sudoers.d/build
 
-# AUR
+# Install yay for AUR packages
 
 # Use all possible cores for subsequent package builds &&
 #   don't compress the packages built here
@@ -99,9 +90,7 @@ RUN git clone https://aur.archlinux.org/yay.git /tmp/yay \
     && sudo pacman -U /tmp/yay/*.pkg.tar.zst --noprogressbar --noconfirm \
     && rm -rf /tmp/yay
 
-# Android build tools
-
-# Install dependecies for building Android
+# Install other dependecies
 RUN yay -S --noprogressbar --needed --noconfirm \
         lib32-ncurses5-compat-libs \
         ncurses5-compat-libs \
@@ -109,7 +98,7 @@ RUN yay -S --noprogressbar --needed --noconfirm \
         aosp-devel \
         lineageos-devel
 
-# Create working directory
+# Create the working directory
 RUN sudo mkdir /android \
     && sudo chown -R build:build /android
 
@@ -123,6 +112,7 @@ WORKDIR /android
 
 RUN sudo archlinux-java set java-8-openjdk
 
+# Set the entrypoint command
 COPY ./assets/entrypoint.sh /
 
 RUN sudo chmod +x /entrypoint.sh \

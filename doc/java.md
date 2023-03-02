@@ -13,6 +13,7 @@ JDK available :
 
 JDK available :
 - openjdk-8-jdk
+- openjdk-7-jre
 
 ### Ubuntu 12.04
 

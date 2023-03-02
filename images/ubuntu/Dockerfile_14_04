@@ -5,10 +5,7 @@ LABEL org.opencontainers.image.description="Android AOSP container for build sys
 LABEL org.opencontainers.image.url=https://github.com/Akipe/android-aosp-build-docker
 LABEL org.opencontainers.image.authors="Julien Milletre Akipe <code.julien@milletre.fr>"
 LABEL org.opencontainers.image.licenses=MIT
-# LABEL org.opencontainers.image.created=$BUILD_DATE
 LABEL org.opencontainers.image.source=https://github.com/Akipe/android-aosp-build-docker
-# LABEL org.opencontainers.image.version=ubuntu-14.04-$BUILD_DATE
-# LABEL org.opencontainers.image.revision=$BUILD_SOURCE_CONTROL_REVISION
 
 ENV \
     # user
@@ -25,11 +22,7 @@ ENV \
     # other
     LC_ALL=C
 
-######
-### Init Archlinux
-######
-
-# Upgrade Archlinux and install devel packages
+# Install and upgrades packages
 RUN apt-get update \
     && apt-get dist-upgrade --yes \
     && apt-get remove --yes \
@@ -79,34 +72,42 @@ RUN apt-get update \
         xsltproc \
         zip \
         zlib1g-dev \
-        libnss-sss:i386 \
         python3-dev \
         python3-networkx \
         python3-pip \
-    && add-apt-repository ppa:openjdk-r/ppa --yes \
-    && apt-get update \
-    && apt-get install openjdk-8-jdk openjdk-7-jdk --yes
-        
+        wget \
+        openjdk-7-jdk \
+        openjdk-7-jre \
+        openjdk-7-jre-headless
+
+# Install openjdk 8
+RUN wget -O /tmp/openjdk-8-jre-headless.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre-headless_8u45-b14-1_amd64.deb \
+    && wget -O /tmp/openjdk-8-jre.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre_8u45-b14-1_amd64.deb \
+    && wget -O /tmp/openjdk-8-jdk.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jdk_8u45-b14-1_amd64.deb \
+    && dpkg -i \
+        /tmp/openjdk-8-jdk.deb \
+        /tmp/openjdk-8-jre.deb \
+        /tmp/openjdk-8-jre-headless.deb \
+    && rm \
+        /tmp/openjdk-8-jdk.deb \
+        /tmp/openjdk-8-jre.deb \
+        /tmp/openjdk-8-jre-headless.deb \
+    && apt-get install --yes -f
+
+# Install repo
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
     && chmod a+x /usr/bin/repo
 
 # RUN pip install virtualenv
 
-######
-### Create user
-######
-
+# Create user
 RUN groupadd --gid $GID --force builder \
     && useradd --gid $GID --uid $UID --non-unique builder \
     && mkdir /home/builder \
     && chown -R builder:builder /home/builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
-######
-### Android build tools
-######
-
-# Create working directory
+# Create the working directory
 RUN mkdir /android \
     && chown -R builder:builder /android
 
@@ -117,6 +118,7 @@ RUN virtualenv --system-site-packages venv
 #    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
 #    && source venv/bin/activate
 
+# Set the entrypoint command
 COPY ./assets/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh \
