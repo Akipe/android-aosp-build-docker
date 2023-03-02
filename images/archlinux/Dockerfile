@@ -1,10 +1,14 @@
-# android-build-image with Archlinux
-# - https://github.com/greyltc/docker-archlinux-aur/blob/master/add-aur.sh
-# - https://android.googlesource.com/platform/build/+/master/tools/docker
-
 FROM docker.io/library/archlinux:base-devel
 
-LABEL maintainer = Julien Milletre Akipe <code.julien@milletre.fr>
+LABEL org.opencontainers.image.title="Android AOSP build image"
+LABEL org.opencontainers.image.description="Android AOSP container for build system"
+LABEL org.opencontainers.image.url=https://github.com/Akipe/android-aosp-build-docker
+LABEL org.opencontainers.image.authors="Julien Milletre Akipe <code.julien@milletre.fr>"
+LABEL org.opencontainers.image.licenses=MIT
+# LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.source=https://github.com/Akipe/android-aosp-build-docker
+# LABEL org.opencontainers.image.version=archlinux-$BUILD_DATE
+# LABEL org.opencontainers.image.revision=$BUILD_SOURCE_CONTROL_REVISION
 
 ENV \
     # user
@@ -21,16 +25,13 @@ ENV \
     # other
     LC_ALL=C
 
-
-######
-### Init Archlinux
-######
+# Init Archlinux
 
 # Enable Multilib repository
 #RUN sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 #RUN sed -i 's/[community]/[community]\\nInclude = /etc/pacman.d/mirrorlist\\n[multilib]"/g' /etc/pacman.conf \
 #RUN echo "[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" > /etc/pacman.conf
-COPY ./pacman.conf /etc/pacman.conf
+COPY ./assets/pacman.conf /etc/pacman.conf
 
 RUN cat /etc/pacman.conf
 
@@ -75,9 +76,7 @@ RUN pacman -Syyu --noprogressbar --noconfirm --needed \
         zip \
         zlib
 
-######
-### Create user
-######
+# Create user
 
 RUN groupadd --gid $GID --force build \
     && useradd --gid $GID --uid $UID --non-unique build \
@@ -85,9 +84,7 @@ RUN groupadd --gid $GID --force build \
     && chown -R build:build /home/build \
     && echo "build ALL=NOPASSWD: ALL" > /etc/sudoers.d/build
 
-######
-### AUR
-######
+# AUR
 
 # Use all possible cores for subsequent package builds &&
 #   don't compress the packages built here
@@ -102,9 +99,7 @@ RUN git clone https://aur.archlinux.org/yay.git /tmp/yay \
     && sudo pacman -U /tmp/yay/*.pkg.tar.zst --noprogressbar --noconfirm \
     && rm -rf /tmp/yay
 
-######
-### Android build tools
-######
+# Android build tools
 
 # Install dependecies for building Android
 RUN yay -S --noprogressbar --needed --noconfirm \
@@ -128,7 +123,7 @@ WORKDIR /android
 
 RUN sudo archlinux-java set java-8-openjdk
 
-COPY ./entrypoint.sh /
+COPY ./assets/entrypoint.sh /
 
 RUN sudo chmod +x /entrypoint.sh \
     && sudo chown -R build:build /entrypoint.sh

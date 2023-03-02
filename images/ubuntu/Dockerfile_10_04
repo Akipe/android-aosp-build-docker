@@ -1,13 +1,14 @@
-# todo : https://android.googlesource.com/platform/build/+/master/tools/docker/Dockerfile
-
-# android-build-image with Ubuntu
-# https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
-# https://source.android.com/docs/setup/start/initializing
-# https://source.android.com/docs/setup/start/older-versions
-
 FROM docker.io/library/ubuntu:10.04
 
-LABEL maintainer = Julien Milletre Akipe <code.julien@milletre.fr>
+LABEL org.opencontainers.image.title="Android AOSP build image"
+LABEL org.opencontainers.image.description="Android AOSP container for build system"
+LABEL org.opencontainers.image.url=https://github.com/Akipe/android-aosp-build-docker
+LABEL org.opencontainers.image.authors="Julien Milletre Akipe <code.julien@milletre.fr>"
+LABEL org.opencontainers.image.licenses=MIT
+# LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.source=https://github.com/Akipe/android-aosp-build-docker
+# LABEL org.opencontainers.image.version=ubuntu-10.04-$BUILD_DATE
+# LABEL org.opencontainers.image.revision=$BUILD_SOURCE_CONTROL_REVISION
 
 ENV \
     # user
@@ -19,14 +20,12 @@ ENV \
     USE_CCACHE=1 \
     CCACHE_COMPRESS=1 \
     # java
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk \
+    JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk \
     ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G" \
     # other
     LC_ALL=C
 
-######
-### Init Archlinux
-######
+# Init Archlinux
 
 RUN rm /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid main restricted universe multiverse" >> /etc/apt/sources.list \
@@ -34,14 +33,12 @@ RUN rm /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid-security main restricted universe multiverse" >> /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid-backports main restricted universe multiverse" >> /etc/apt/sources.list \
     && echo "deb http://old-releases.ubuntu.com/ubuntu/ lucid-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
-    && cat /etc/apt/sources.list
-
-RUN echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/70-allow-unauthenticated
+    && echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/70-allow-unauthenticated
 
 # Upgrade Archlinux and install devel packages
-RUN apt-get update \
-    && echo "udev hold" | dpkg --set-selections \
+RUN echo "udev hold" | dpkg --set-selections \
     && echo "plymouth hold" | dpkg --set-selections \
+    && apt-get update \
     && apt-get dist-upgrade --yes \
     && apt-get install --yes \
         git-core \
@@ -69,22 +66,20 @@ RUN apt-get update \
         python-pip \
         python-virtualenv \
         python-software-properties \
+        ccache \
         sudo \
-    # && apt-get install --yes --no-install-recommends openjdk-7-jdk
     && add-apt-repository ppa:openjdk-r/ppa \
     && apt-get update \
     && apt-get dist-upgrade -y \
-    && apt-get install --no-install-recommends openjdk-7-jdk openjdk-6-jdk -f --yes \
+    && apt-get install --no-install-recommends -f --yes \
+        openjdk-7-jdk \
+        openjdk-6-jdk \
     && ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
 
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
     && chmod a+x /usr/bin/repo
 
-# RUN pip install virtualenv
-
-######
-### Create user
-######
+# Create user
 
 RUN groupadd --gid $GID --force builder \
     && useradd --gid $GID --uid $UID --non-unique builder \
@@ -92,9 +87,7 @@ RUN groupadd --gid $GID --force builder \
     && chown -R builder:builder /home/builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
-######
-### Android build tools
-######
+# Android build tools
 
 # Create working directory
 RUN mkdir /android \
@@ -107,7 +100,7 @@ WORKDIR /android
 #    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
 #    && source venv/bin/activate
 
-COPY ./entrypoint.sh /
+COPY ./assets/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh \
     && chown -R builder:builder /entrypoint.sh

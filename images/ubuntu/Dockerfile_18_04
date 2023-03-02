@@ -1,12 +1,14 @@
-# todo : https://android.googlesource.com/platform/build/+/master/tools/docker/Dockerfile
-
-# android-build-image with Ubuntu
-# https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/
-# https://source.android.com/docs/setup/start/initializing
-
 FROM docker.io/library/ubuntu:18.04
 
-LABEL maintainer = Julien Milletre Akipe <code.julien@milletre.fr>
+LABEL org.opencontainers.image.title="Android AOSP build image"
+LABEL org.opencontainers.image.description="Android AOSP container for build system"
+LABEL org.opencontainers.image.url=https://github.com/Akipe/android-aosp-build-docker
+LABEL org.opencontainers.image.authors="Julien Milletre Akipe <code.julien@milletre.fr>"
+LABEL org.opencontainers.image.licenses=MIT
+# LABEL org.opencontainers.image.created=$BUILD_DATE
+LABEL org.opencontainers.image.source=https://github.com/Akipe/android-aosp-build-docker
+# LABEL org.opencontainers.image.version=ubuntu-18.04-$BUILD_DATE
+# LABEL org.opencontainers.image.revision=$BUILD_SOURCE_CONTROL_REVISION
 
 ENV \
     # user
@@ -23,9 +25,7 @@ ENV \
     # other
     LC_ALL=C
 
-######
-### Init Archlinux
-######
+# Init Archlinux
 
 RUN cat /etc/apt/sources.list
 
@@ -98,9 +98,7 @@ RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/
 
 RUN pip install virtualenv
 
-######
 ### Create user
-######
 
 RUN groupadd --gid $GID --force builder \
     && useradd --gid $GID --uid $UID --non-unique builder \
@@ -108,9 +106,7 @@ RUN groupadd --gid $GID --force builder \
     && chown -R builder:builder /home/builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
-######
-### Android build tools
-######
+# Android build tools
 
 # Create working directory
 RUN mkdir /android \
@@ -123,7 +119,7 @@ RUN virtualenv --system-site-packages venv
 #    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
 #    && source venv/bin/activate
 
-COPY ./entrypoint.sh /
+COPY ./assets/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh \
     && chown -R builder:builder /entrypoint.sh
