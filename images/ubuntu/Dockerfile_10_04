@@ -12,9 +12,6 @@ ENV \
     CCACHE_DIR=/android/ccache \
     USE_CCACHE=1 \
     CCACHE_COMPRESS=1 \
-    # java
-    JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk \
-    ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G" \
     # other
     LC_ALL=C
 
@@ -63,12 +60,6 @@ RUN echo "udev hold" | dpkg --set-selections \
         sudo \
         wget \
         bash-completion \
-    && add-apt-repository ppa:openjdk-r/ppa \
-    && apt-get update \
-    && apt-get dist-upgrade -y \
-    && apt-get install --no-install-recommends -f --yes \
-        openjdk-7-jdk \
-        openjdk-6-jdk \
     && ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
 
 # Install repo

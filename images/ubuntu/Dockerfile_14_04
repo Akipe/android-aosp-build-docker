@@ -12,9 +12,6 @@ ENV \
     CCACHE_DIR=/android/ccache \
     USE_CCACHE=1 \
     CCACHE_COMPRESS=1 \
-    # java
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk \
-    ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G" \
     # other
     LC_ALL=C
 
@@ -69,28 +66,11 @@ RUN apt-get update \
         python3-dev \
         python3-networkx \
         python3-pip \
-        openjdk-7-jdk \
-        openjdk-7-jre \
-        openjdk-7-jre-headless \
         # For users
         software-properties-common \
         sudo \
         wget \
         bash-completion
-
-# Install openjdk 8
-RUN wget -O /tmp/openjdk-8-jre-headless.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre-headless_8u45-b14-1_amd64.deb \
-    && wget -O /tmp/openjdk-8-jre.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre_8u45-b14-1_amd64.deb \
-    && wget -O /tmp/openjdk-8-jdk.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jdk_8u45-b14-1_amd64.deb \
-    && dpkg -i \
-        /tmp/openjdk-8-jdk.deb \
-        /tmp/openjdk-8-jre.deb \
-        /tmp/openjdk-8-jre-headless.deb \
-    && rm \
-        /tmp/openjdk-8-jdk.deb \
-        /tmp/openjdk-8-jre.deb \
-        /tmp/openjdk-8-jre-headless.deb \
-    && apt-get install --yes -f
 
 # Install repo
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \

@@ -12,9 +12,6 @@ ENV \
     CCACHE_DIR=/android/ccache \
     USE_CCACHE=1 \
     CCACHE_COMPRESS=1 \
-    # java
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk \
-    ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G" \
     # other
     LC_ALL=C
 
@@ -77,9 +74,6 @@ RUN apt-get update \
         zlib1g-dev \
         fontconfig \
         libelf-dev \
-        openjdk-8-jdk \
-        openjdk-8-jre \
-        openjdk-8-jre-headless \
         # For users
         software-properties-common \
         sudo \
