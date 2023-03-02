@@ -25,6 +25,7 @@ Resources used for creating this images :
 - <https://source.android.com/docs/setup/start/older-versions>
 - <https://android.googlesource.com/platform/build/+/master/tools/docker/Dockerfile>
 - <https://nathanpfry.com/how-to-setup-ubuntu-18-04-lts-bionic-beaver-to-compile-android-roms/>
+- <https://developer.sony.com/develop/open-devices/guides/aosp-build-instructions/build-aosp-android-13>
 
 ## License
 

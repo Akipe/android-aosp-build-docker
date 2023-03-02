@@ -75,7 +75,6 @@ RUN apt-get update \
         rsync \
         schedtool \
         squashfs-tools \
-        sudo \
         unzip \
         x11proto-core-dev \
         xsltproc \
@@ -83,11 +82,14 @@ RUN apt-get update \
         zlib1g-dev \
         fontconfig \
         libelf-dev \
-        software-properties-common \
         openjdk-8-jdk \
         openjdk-8-jre \
         openjdk-8-jre-headless \
-        wget
+        # For users
+        software-properties-common \
+        sudo \
+        wget \
+        bash-completion
 
 # Install repo
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \

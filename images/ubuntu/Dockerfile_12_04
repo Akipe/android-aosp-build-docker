@@ -74,7 +74,6 @@ RUN apt-get update \
         rsync \
         schedtool \
         squashfs-tools \
-        sudo \
         unzip \
         x11proto-core-dev \
         xsltproc \
@@ -87,9 +86,13 @@ RUN apt-get update \
         tofrodos \
         python-markdown \
         zlib1g-dev:i386 \
+        # For users
         software-properties-common \
         python-software-properties \
+        sudo \
         wget \
+        bash-completion \
+        # Java
     && apt-get install --yes --no-install-recommends openjdk-7-jdk
 
 # Install openjdk 8

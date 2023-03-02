@@ -65,9 +65,7 @@ RUN apt-get update \
         lzop \
         rsync \
         schedtool \
-        software-properties-common \
         squashfs-tools \
-        sudo \
         unzip \
         x11proto-core-dev \
         xsltproc \
@@ -76,10 +74,14 @@ RUN apt-get update \
         python3-dev \
         python3-networkx \
         python3-pip \
-        wget \
         openjdk-7-jdk \
         openjdk-7-jre \
-        openjdk-7-jre-headless
+        openjdk-7-jre-headless \
+        # For users
+        software-properties-common \
+        sudo \
+        wget \
+        bash-completion
 
 # Install openjdk 8
 RUN wget -O /tmp/openjdk-8-jre-headless.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre-headless_8u45-b14-1_amd64.deb \

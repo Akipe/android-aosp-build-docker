@@ -61,12 +61,15 @@ RUN pacman -Syyu --noprogressbar --noconfirm --needed \
         schedtool \
         sdl \
         squashfs-tools \
-        sudo \
         ttf-dejavu \
         unzip \
         vim \
         zip \
-        zlib
+        zlib \
+        # for users
+        sudo \
+        wget \
+        bash-completion
 
 # Create user
 RUN groupadd --gid $GID --force build \

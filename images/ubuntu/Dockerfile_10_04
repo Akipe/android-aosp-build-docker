@@ -62,10 +62,12 @@ RUN echo "udev hold" | dpkg --set-selections \
         xsltproc \
         python-pip \
         python-virtualenv \
-        python-software-properties \
         ccache \
+        # For users
+        python-software-properties \
         sudo \
         wget \
+        bash-completion \
     && add-apt-repository ppa:openjdk-r/ppa \
     && apt-get update \
     && apt-get dist-upgrade -y \
