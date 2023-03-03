@@ -1,6 +1,6 @@
 # Android 7.0 to Android 8.0
 
-FROM android-aosp-build:ubuntu-18.04
+FROM ak1pe/android-aosp-build:ubuntu-18.04
 
 LABEL org.opencontainers.image.description="Android AOSP container for build system"
 LABEL org.opencontainers.image.licenses=MIT
