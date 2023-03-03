@@ -5,6 +5,7 @@ on:
     - cron: "0 3 * * 4" # At 03:00 on Thursday
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   docker:
