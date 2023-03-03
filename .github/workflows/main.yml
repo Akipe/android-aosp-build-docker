@@ -5,6 +5,7 @@ on:
     - cron: "0 3 * * 4" # At 03:00 on Thursday
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   docker:
@@ -74,8 +75,6 @@ jobs:
           context: ./images/ubuntu
           file: ./images/ubuntu/Dockerfile_18_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubnt-18.04
@@ -104,8 +103,6 @@ jobs:
           context: ./images/ubuntu
           file: ./images/ubuntu/Dockerfile_14_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9
@@ -146,8 +143,6 @@ jobs:
           context: ./images/ubuntu
           file: ./images/ubuntu/Dockerfile_12_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-12.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-12.04
@@ -166,8 +161,6 @@ jobs:
           context: ./images/ubuntu
           file: ./images/ubuntu/Dockerfile_10_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-10.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-10.04
@@ -186,8 +179,6 @@ jobs:
           context: ./images/archlinux
           file: ./images/archlinux/Dockerfile
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:archlinux
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-archlinux
@@ -216,8 +207,6 @@ jobs:
           context: ./images/android
           file: ./images/android/Dockerfile_7_8_ubnt_14_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubnt-14.04
@@ -242,8 +231,6 @@ jobs:
           context: ./images/android
           file: ./images/android/Dockerfile_7_8_ubnt_18_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubnt-18.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-ubnt-18.04
@@ -264,8 +251,6 @@ jobs:
           context: ./images/android
           file: ./images/android/Dockerfile_7_8_arch
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-arch
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-arch
@@ -286,8 +271,6 @@ jobs:
           context: ./images/android
           file: ./images/android/Dockerfile_6_ubnt_14_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-6
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-6
@@ -306,8 +289,6 @@ jobs:
           context: ./images/android
           file: ./images/android/Dockerfile_5_ubnt_12_04
           push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-5
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-5
@@ -326,8 +307,6 @@ jobs:
           context: ./images/android
           file: ./images/android/Dockerfile_2_4_ubnt_12_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-4
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.3
@@ -348,8 +327,6 @@ jobs:
           context: ./images/android
           file: ./images/android/Dockerfile_1_2_ubnt_10_04
           push: true
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.2
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.1

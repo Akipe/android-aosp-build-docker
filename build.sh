@@ -135,4 +135,3 @@ docker build \
     --tag android-aosp-build:android-1.5 \
     ./images/android && \
 echo "Building finished"
-
