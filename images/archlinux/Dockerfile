@@ -13,7 +13,7 @@ ENV \
     GID=1000 \
     # ccache specifics
     CCACHE_SIZE=50G \
-    CCACHE_DIR=/android/ccache \
+    CCACHE_DIR=/workspace/ccache \
     USE_CCACHE=1 \
     CCACHE_COMPRESS=1 \
     # other
@@ -98,15 +98,15 @@ RUN yay -S --noprogressbar --needed --noconfirm \
         lineageos-devel
 
 # Create the working directory
-RUN sudo mkdir /android \
-    && sudo chown -R build:build /android
+RUN sudo mkdir /workspace \
+    && sudo chown -R build:build /workspace
 
-WORKDIR /android
+WORKDIR /workspace
 
 # Configure Python version
 #RUN sudo ln -s /usr/bin/python2 /usr/bin/python \
 #    && virtualenv2 --system-site-packages venv \
-#    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
+#    && ln -s /usr/lib/python2.7/* /workspace/venv/lib/python2.7/ \
 #    && source venv/bin/activate
 
 # Set the entrypoint command

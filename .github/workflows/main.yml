@@ -69,34 +69,6 @@ jobs:
           username: ${{ env.repository_owner_lc }}
           password: ${{ secrets.PAT }}
       -
-        name: Build and push Ubuntu 18.04
-        uses: docker/build-push-action@v4
-        with:
-          context: ./images/ubuntu
-          file: ./images/ubuntu/Dockerfile_18_04
-          push: true
-          tags: |
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubuntu-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubuntu-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubuntu-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubuntu-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubuntu-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubuntu-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubuntu-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubuntu-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubuntu-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubuntu-18.04
-          labels: |
-            org.opencontainers.image.url=https://github.com/${{ github.repository }}
-            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
-            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=ubuntu-18.04-${{ env.build_date }}
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
-      -
         name: Build and push Ubuntu 14.04
         uses: docker/build-push-action@v4
         with:
@@ -134,6 +106,34 @@ jobs:
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=ubuntu-14.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Ubuntu 18.04
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/ubuntu
+          file: ./images/ubuntu/Dockerfile_18_04
+          push: true
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubuntu-18.04
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=ubuntu-18.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
       -

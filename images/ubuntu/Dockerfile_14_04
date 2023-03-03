@@ -9,7 +9,7 @@ ENV \
     GID=1000 \
     # ccache specifics
     CCACHE_SIZE=50G \
-    CCACHE_DIR=/android/ccache \
+    CCACHE_DIR=/workspace/ccache \
     USE_CCACHE=1 \
     CCACHE_COMPRESS=1 \
     # other
@@ -88,14 +88,14 @@ RUN groupadd --gid $GID --force builder \
     && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
 
 # Create the working directory
-RUN mkdir /android \
-    && chown -R builder:builder /android
+RUN mkdir /workspace \
+    && chown -R builder:builder /workspace
 
-WORKDIR /android
+WORKDIR /workspace
 
 # Configure Python version
 RUN virtualenv --system-site-packages venv
-#    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
+#    && ln -s /usr/lib/python2.7/* /workspace/venv/lib/python2.7/ \
 #    && source venv/bin/activate
 
 # Set the entrypoint command
