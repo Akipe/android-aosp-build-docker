@@ -10,7 +10,7 @@ Containers are updates automatically every week and every time I make a change.
 
 ## How to
 
-### Choose tag
+### Choose your version
 
 You must choose for which version of Android you will have to compile when you will define the image tag :
 
@@ -33,23 +33,27 @@ You must choose for which version of Android you will have to compile when you w
 
 You can find more information about how choosing the right version : [./doc/version.md](./doc/version.md)
 
-### Example with `docker`
+### Run with `docker`
 
-Start the container (*change `/PATH/ANDROID_SOURCES` with your Android path*) :
+Here is an example of how to start the container (*change `/PATH/ANDROID_SOURCES` with your Android path*) :
+
 ```bash
 docker run -d -v /PATH/ANDROID_SOURCES:/workspace --name builder-android-13 ak1pe/android-aosp-build:android-13
 ```
 
-Get shell :
+Then you can control the shell :
+
 ```bash
 docker exec -it builder-android-13 bash
 ```
 
-Now you can execute your commands for building.
+Now you can execute any commands for building.
 
 *Work with podman too.*
 
-### Example with `docker compose`
+### Run with `docker compose`
+
+Here is an other example of how to define your `docker-compose.yml` :
 
 ```yml
 # docker-compose.yml
@@ -64,17 +68,19 @@ services:
 
 ```
 
-Start the container :
+Then you can start the container :
+
 ```bash
 docker compose up -d docker-compose.yml
 ```
 
-Get shell :
+At last you can control the shell :
+
 ```bash
 docker compose exec builder-android-13 bash
 ```
 
-Now you can execute your commands for building.
+Now you can execute any commands for building.
 
 ## Documentation
 
