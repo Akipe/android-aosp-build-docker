@@ -77,17 +77,17 @@ jobs:
           push: true
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubnt-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubnt-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubnt-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubnt-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubnt-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubuntu-18.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubnt-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubnt-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubnt-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubnt-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubnt-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubuntu-18.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -106,27 +106,27 @@ jobs:
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:latest
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:latest
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
@@ -209,13 +209,13 @@ jobs:
           push: true
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubuntu-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-ubuntu-14.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -232,10 +232,10 @@ jobs:
           file: ./images/android/Dockerfile_7_8_ubnt_18_04
           push: true
           tags: |
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubnt-18.04
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-ubnt-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-ubnt-18.04
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-ubnt-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-ubuntu-18.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -261,7 +261,7 @@ jobs:
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=android-7-8-arch-${{ env.build_date }}
+            org.opencontainers.image.version=android-7-8-archlinux-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
       -
