@@ -2,11 +2,36 @@
 
 *Work in progress. I am waiting for feed : don't hesitate to add issues.*
 
-Containers images for helping you to manually build Android system without editing your system. All the necessary is included
+Containers to help you compile Android without worrying about how to set up your development environment. You can compile for almost all Android versions.
 
 *I need feedback for building old Android systems with old Ubuntu images (14.04, 12.04 and 10.04).*
 
+Containers are updates automatically every week and every time I make a change.
+
 ## How to
+
+### Choose tag
+
+You must choose for which version of Android you will have to compile when you will define the image tag :
+
+- ak1pe/android-aosp-build:android-13
+- ak1pe/android-aosp-build:android-12
+- ak1pe/android-aosp-build:android-11
+- ak1pe/android-aosp-build:android-10
+- ak1pe/android-aosp-build:android-9
+- ak1pe/android-aosp-build:android-8
+- ak1pe/android-aosp-build:android-7
+- ak1pe/android-aosp-build:android-6
+- ak1pe/android-aosp-build:android-5
+- ak1pe/android-aosp-build:android-4
+- ak1pe/android-aosp-build:android-2.3
+- ak1pe/android-aosp-build:android-2.2
+- ak1pe/android-aosp-build:android-2.1
+- ak1pe/android-aosp-build:android-2.0
+- ak1pe/android-aosp-build:android-1.6
+- ak1pe/android-aosp-build:android-1.5
+
+You can find more information about how choosing the right version : [./doc/version.md](./doc/version.md)
 
 ### Example with `docker`
 
