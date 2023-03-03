@@ -1,6 +1,6 @@
 # Android AOSP Build with Docker
 
-*Work in progress. I am waiting for feed : don't hesitate to add issues.*
+*Work in progress. I am waiting for your feedback : don't hesitate to add issues.*
 
 Containers to help you compile Android without worrying about how to set up your development environment. You can compile for almost all Android versions.
 
