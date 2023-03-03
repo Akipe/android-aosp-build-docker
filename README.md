@@ -8,7 +8,48 @@ Containers images for helping you to manually build Android system without editi
 
 ## How to
 
-todo.
+### Example with `docker`
+
+Start the container (*change `/PATH/ANDROID_SOURCES` with your Android path*) :
+```bash
+docker run -d -v /PATH/ANDROID_SOURCES:/workspace --name builder-android-13 ak1pe/android-aosp-build:android-13
+```
+
+Get shell :
+```bash
+docker exec -it builder-android-13 bash
+```
+
+Now you can execute your commands for building.
+
+*Work with podman too.*
+
+### Example with `docker compose`
+
+```yml
+# docker-compose.yml
+---
+version: "3.5"
+
+services:
+    builder-android-13:
+        image: "ak1pe/android-aosp-build:android-13"
+        volumes:
+        - /PATH/WHERE/ANDROID_SOURCES:/workspace
+
+```
+
+Start the container :
+```bash
+docker compose up -d docker-compose.yml
+```
+
+Get shell :
+```bash
+docker compose exec builder-android-13 bash
+```
+
+Now you can execute your commands for building.
 
 ## Documentation
 
