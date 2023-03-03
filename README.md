@@ -4,7 +4,7 @@
 
 Containers to help you compile Android without worrying about how to set up your development environment. You can compile for almost all Android versions.
 
-*I need feedback for building old Android systems with old Ubuntu images (14.04, 12.04 and 10.04).*
+*I need feedback for building old Android systems (from Android 8 to Android 1.5).*
 
 Containers are updates automatically every week and every time I make a change.
 
