@@ -57,7 +57,17 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubnt-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubnt-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubnt-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubnt-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubnt-18.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubnt-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubnt-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubnt-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubnt-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubnt-18.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -77,8 +87,28 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:ubuntu-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubnt-14.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:latest
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:ubuntu-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubnt-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:latest
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
@@ -139,12 +169,182 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:archlinux
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-9-archlinux
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-10-archlinux
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-archlinux
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-archlinux
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-archlinux
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-archlinux
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.version=archlinux-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Android 7.0 to 8.0 (Ubuntu 14.04)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/android
+          file: ./images/android/Dockerfile_7_8_ubnt_14_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubnt-14.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-ubnt-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-ubnt-14.04
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=android-7-8-ubuntu-14.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Android 7.0 to 8.0 (Ubuntu 18.04)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/android
+          file: ./images/android/Dockerfile_7_8_ubnt_18_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-ubnt-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-ubnt-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-ubnt-18.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-ubnt-18.04
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=android-7-8-ubuntu-18.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Android 7.0 to 8.0 (Archlinux)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/android
+          file: ./images/android/Dockerfile_7_8_arch
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-arch
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-arch
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-arch
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-arch
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=android-7-8-arch-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Android 6.0 (Ubuntu 14.04)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/android
+          file: ./images/android/Dockerfile_6_ubnt_14_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-6
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-6
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=android-6-ubuntu-14.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Android 5.0 (Ubuntu 12.04)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/android
+          file: ./images/android/Dockerfile_5_ubnt_12_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-5
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-5
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=android-5-ubuntu-12.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Android 2.3.x to 4.4.x (Ubuntu 12.04)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/android
+          file: ./images/android/Dockerfile_2_4_ubnt_12_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-4
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.3
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-4
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.3
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=android-2.3-4.4-ubuntu-12.04-${{ env.build_date }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ env.build_date_rfc3339 }}
+      -
+        name: Build and push Android 1.5 to 2.2.x (Ubuntu 10.04)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./images/android
+          file: ./images/android/Dockerfile_1_2_ubnt_10_04
+          push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.2
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.1
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.0
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-1.6
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-1.5
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.2
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.1
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.0
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-1.6
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-1.5
+          labels: |
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            maintainer="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=android-1.5-2.2-ubuntu-10.04-${{ env.build_date }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ env.build_date_rfc3339 }}

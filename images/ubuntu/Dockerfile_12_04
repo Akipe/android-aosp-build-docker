@@ -48,6 +48,7 @@ RUN apt-get update \
         lib32readline-dev \
         lib32z-dev \
         lib32z1-dev \
+        libc6-dev \
         libc6-dev-i386 \
         libgl1-mesa-dev \
         libncurses5 \
@@ -78,20 +79,21 @@ RUN apt-get update \
         tofrodos \
         python-markdown \
         zlib1g-dev:i386 \
+        # ia32-libs \
+        libwxgtk2.6-dev \
+        libesd0-dev \
         # For users
         software-properties-common \
         python-software-properties \
         sudo \
         wget \
-        bash-completion
+        p7zip-full \
+        bash-completion && \
+    ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
 
-# Install repo
-RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
-    && chmod a+x /usr/bin/repo
-
-RUN ln -s /usr/lib/i386-linux-gnu/mesa/libGL.so.1 /usr/lib/i386-linux-gnu/libGL.so
-
-# RUN pip install virtualenv
+# Install repo v1
+RUN curl "https://android.googlesource.com/tools/repo/+/refs/heads/repo-1/repo?format=TEXT" | base64 -d > /usr/bin/repo && \
+    chmod a+x /usr/bin/repo
 
 # Create user
 RUN groupadd --gid $GID --force builder \
@@ -108,8 +110,6 @@ WORKDIR /android
 
 # Configure Python version
 RUN virtualenv --system-site-packages venv
-#    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
-#    && source venv/bin/activate
 
 # Set the entrypoint command
 COPY ./assets/entrypoint.sh /

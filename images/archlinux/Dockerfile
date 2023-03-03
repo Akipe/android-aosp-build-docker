@@ -16,9 +16,6 @@ ENV \
     CCACHE_DIR=/android/ccache \
     USE_CCACHE=1 \
     CCACHE_COMPRESS=1 \
-    # java
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk \
-    ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G" \
     # other
     LC_ALL=C
 
@@ -44,7 +41,6 @@ RUN pacman -Syyu --noprogressbar --noconfirm --needed \
         gradle \
         imagemagick \
         inetutils \
-        jdk8-openjdk \
         lib32-gcc-libs \
         lib32-ncurses \
         lib32-readline \
@@ -112,8 +108,6 @@ WORKDIR /android
 #    && virtualenv2 --system-site-packages venv \
 #    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
 #    && source venv/bin/activate
-
-RUN sudo archlinux-java set java-8-openjdk
 
 # Set the entrypoint command
 COPY ./assets/entrypoint.sh /

@@ -1,0 +1,27 @@
+# Android 7.0 to Android 8.0
+
+FROM android-aosp-build:ubuntu-18.04
+
+LABEL org.opencontainers.image.description="Android AOSP container for build system"
+LABEL org.opencontainers.image.licenses=MIT
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
+
+USER root
+
+# Install openjdk 8
+RUN apt-get update \
+    && apt-get remove --yes \
+        openjdk-* \
+        icedtea-* \
+    && apt-get full-upgrade --yes \
+    && apt-get install --yes \
+        openjdk-8-jdk
+
+RUN update-alternatives --set java "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java" && \
+    update-alternatives --set javac "/usr/lib/jvm/java-8-openjdk-amd64/bin/javac"
+
+USER builder
+
+CMD /entrypoint.sh

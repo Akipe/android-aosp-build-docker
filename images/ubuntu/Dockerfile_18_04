@@ -80,9 +80,11 @@ RUN apt-get update \
         wget \
         bash-completion
 
-# Install repo
+# Install repo v2 & v1
 RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
-    && chmod a+x /usr/bin/repo
+    && chmod a+x /usr/bin/repo && \
+    curl "https://android.googlesource.com/tools/repo/+/refs/heads/repo-1/repo?format=TEXT" | base64 -d > /usr/bin/repo-v1 && \
+    chmod a+x /usr/bin/repo-v1
 
 # Install virtualenv
 RUN pip install virtualenv

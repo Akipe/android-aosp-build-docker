@@ -55,16 +55,19 @@ RUN echo "udev hold" | dpkg --set-selections \
         python-pip \
         python-virtualenv \
         ccache \
+        libwxgtk2.6-dev \
+        libesd0-dev \
         # For users
         python-software-properties \
         sudo \
         wget \
-        bash-completion \
-    && ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
+        p7zip-full \
+        bash-completion && \
+    ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
 
-# Install repo
-RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
-    && chmod a+x /usr/bin/repo
+# Install repo v1
+RUN curl "https://android.googlesource.com/tools/repo/+/refs/heads/repo-1/repo?format=TEXT" | base64 -d > /usr/bin/repo && \
+    chmod a+x /usr/bin/repo
 
 # Create user
 RUN groupadd --gid $GID --force builder \
@@ -78,11 +81,6 @@ RUN mkdir /android \
     && chown -R builder:builder /android
 
 WORKDIR /android
-
-# Configure Python version
-# RUN virtualenv --system-site-packages venv
-#    && ln -s /usr/lib/python2.7/* /android/venv/lib/python2.7/ \
-#    && source venv/bin/activate
 
 # Set the entrypoint command
 COPY ./assets/entrypoint.sh /

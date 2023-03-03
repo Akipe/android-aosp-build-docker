@@ -1,0 +1,20 @@
+# Android 7.0 to Android 8.0
+
+FROM android-aosp-build:archlinux
+
+LABEL org.opencontainers.image.description="Android AOSP container for build system"
+LABEL org.opencontainers.image.licenses=MIT
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
+
+USER root
+
+# Install openjdk 8
+RUN pacman -Syyu --noprogressbar --noconfirm --needed \
+        jdk8-openjdk && \
+    archlinux-java set java-8-openjdk
+
+USER builder
+
+CMD /entrypoint.sh
