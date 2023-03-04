@@ -1,0 +1,33 @@
+# Android 1.5 to Android 2.2.x
+
+# FROM localhost/android-aosp-build-base:ubuntu-12.04 
+FROM ak1pe/android-aosp-build-base:ubuntu-12.04
+
+LABEL org.opencontainers.image.description="Android AOSP container for build system"
+LABEL org.opencontainers.image.licenses=MIT
+
+ENV JAVA_HOME=/usr/lib/jvm/jdk1.5.0_22
+
+USER root
+
+COPY ./assets/jdk-1_5_0_22-linux-amd64.bin /tmp
+
+# Install java jdk 5
+RUN apt-get remove --yes \
+        openjdk-* \
+        icedtea-* \
+    && export JAVA_INSTALL_DIR=$(mktemp --directory) \
+    && mv /tmp/jdk-1_5_0_22-linux-amd64.bin $JAVA_INSTALL_DIR \
+    && cd $JAVA_INSTALL_DIR \
+    && chmod +x $JAVA_INSTALL_DIR/jdk-1_5_0_22-linux-amd64.bin \
+    && yes | $JAVA_INSTALL_DIR/jdk-1_5_0_22-linux-amd64.bin \
+    && mkdir -p /usr/lib/jvm \
+    && mv $JAVA_INSTALL_DIR/jdk1.5.0_22 /usr/lib/jvm/ \
+    && update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.5.0_22/bin/java" 1 \
+    && update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.5.0_22/bin/javac" 1 \
+    && export PATH=$PATH:$JAVA_HOME/bin \
+    && rm -rf "$JAVA_INSTALL_DIR"
+
+USER $USERNAME
+
+CMD /entrypoint.sh

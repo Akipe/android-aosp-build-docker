@@ -1,0 +1,67 @@
+---
+version: "3.5"
+
+x-environment:
+  &default-back-environment
+  # User settings
+  UID: "${UID:-1000}"
+  GID: "${UID:-1000}"
+  # You can use instead :
+  # UID: $(id -u USERNAME)
+  # GID: $(id -g USERNAME)
+
+  # git settings
+  GIT_USERNAME: "Test Name" # Change for name you want to use with git
+  GIT_MAIL: "mail@test.com" # Change for mail you want to use with git
+
+services:
+
+  builder-android-13:
+    image: "ak1pe/android-aosp-build:android-13" # Choose the version you want
+    #userns_mode: keep-id # When using podman instead docker
+    environment:
+      UID: "${UID}"
+      GID: "${UID}"
+      GIT_USERNAME: "${GIT_USERNAME}"
+      GIT_MAIL: "${GIT_MAIL}"
+      # You can change Android build environment variable :
+      USE_CCACHE: "1" # Set to "0" to disable ccache
+      CCACHE_COMPRESS: "1"
+      CCACHE_SIZE: 50G
+      # For Android version 6 to 8, you can change JACK settings :
+      ANDROID_JACK_VM_ARGS: "-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
+    volumes:
+    - /PATH/HOST/ANDROID_WORKSPACE:/workspace # Change /PATH/HOST/ANDROID_WORKSPACE with the path wanted
+    - ~/.ssh:~/.ssh # Share ssh key for git fetching
+    - bashhistory:/commandhistory # Keep history with bash
+    - ccache:/ccache # For ccache sharing
+
+  builder-android-7:
+    image: "ak1pe/android-aosp-build:android-7"
+    environment:
+      UID: "${UID}"
+      GID: "${UID}"
+      GIT_USERNAME: "${GIT_USERNAME}"
+      GIT_MAIL: "${GIT_MAIL}"
+    volumes:
+    - /PATH/HOST/ANDROID_WORKSPACE:/workspace
+    - ~/.ssh:~/.ssh
+    - bashhistory:/commandhistory
+    - ccache:/ccache
+
+  builder-android-8:
+    image: "ak1pe/android-aosp-build:android-8"
+    environment:
+      UID: "${UID}"
+      GID: "${UID}"
+      GIT_USERNAME: "${GIT_USERNAME}"
+      GIT_MAIL: "${GIT_MAIL}"
+    volumes:
+    - /PATH/HOST/ANDROID_WORKSPACE:/workspace
+    - ~/.ssh:~/.ssh
+    - bashhistory:/commandhistory
+    - ccache:/ccache
+
+volumes:
+  bashhistory: # For keeping history with bash
+  ccache:

@@ -1,6 +1,7 @@
 # Android 5.0
 
-FROM ak1pe/android-aosp-build:ubuntu-12.04
+# FROM localhost/android-aosp-build-base:ubuntu-12.04
+FROM ak1pe/android-aosp-build-base:ubuntu-12.04
 
 LABEL org.opencontainers.image.description="Android AOSP container for build system"
 LABEL org.opencontainers.image.licenses=MIT
@@ -18,9 +19,9 @@ RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
         openjdk-7-jdk
 
-RUN update-alternatives --set java "/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java" && \
-    update-alternatives --set javac "/usr/lib/jvm/java-7-openjdk-amd64/bin/javac"
+RUN update-alternatives --set java "/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java" \
+    && update-alternatives --set javac "/usr/lib/jvm/java-7-openjdk-amd64/bin/javac"
 
-USER builder
+USER $USERNAME
 
 CMD /entrypoint.sh

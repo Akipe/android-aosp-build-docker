@@ -1,0 +1,23 @@
+---
+version: "3.5"
+
+services:
+
+  test1:
+    image: "localhost/android-aosp-build:android-12-ubuntu-14.04"
+    # image: "localhost/android-aosp-build:android-12-ubuntu-14.04"
+    userns_mode: keep-id
+    environment:
+      UID: $(id -u akp)
+      GID: $(id -g akp)
+      GIT_USERNAME: "Test Name"
+      GIT_MAIL: "mail@test.com"
+    volumes:
+    - /tmp/tmp.M7Uyt5s7uI:/workspace
+    - ~/.ssh:/home/builder/.ssh
+    - bashhistory:/commandhistory
+    - ccache:/ccache
+
+volumes:
+  bashhistory:
+  ccache:

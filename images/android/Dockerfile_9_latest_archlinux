@@ -1,0 +1,11 @@
+# Android 7.0 to Android 8.0
+
+# FROM localhost/android-aosp-build-base:archlinux
+FROM ak1pe/android-aosp-build-base:archlinux
+
+LABEL org.opencontainers.image.description="Android AOSP container for build system"
+LABEL org.opencontainers.image.licenses=MIT
+
+USER $USERNAME
+
+CMD /entrypoint.sh

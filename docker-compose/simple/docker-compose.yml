@@ -1,0 +1,15 @@
+---
+version: "3.5"
+
+services:
+  builder-android-13:
+    image: "ak1pe/android-aosp-build:android-13" # Choose the version you want
+    #userns_mode: keep-id # When using podman instead docker
+    environment:
+      # These are the minimal configuration need :
+      UID: ${UID:-1000} # or "UID: $(id -u USERNAME)"
+      GID: ${UID:-1000} # or "GID: $(id -g USERNAME)"
+      GIT_USERNAME: "Test Name" # Change for name you want to use with git
+      GIT_MAIL: "mail@test.com" # Change for mail you want to use with git
+    volumes:
+    - /PATH/HOST/ANDROID_WORKSPACE:/workspace # Change left side to the path wanted
