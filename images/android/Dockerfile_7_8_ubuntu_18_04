@@ -1,6 +1,7 @@
 # Android 7.0 to Android 8.0
 
-FROM ak1pe/android-aosp-build:ubuntu-18.04
+# FROM localhost/android-aosp-build-base:ubuntu-18.04
+FROM ak1pe/android-aosp-build-base:ubuntu-18.04
 
 LABEL org.opencontainers.image.description="Android AOSP container for build system"
 LABEL org.opencontainers.image.licenses=MIT
@@ -17,11 +18,12 @@ RUN apt-get update \
         icedtea-* \
     && apt-get full-upgrade --yes \
     && apt-get install --yes \
-        openjdk-8-jdk
+        openjdk-8-jdk \
+    && echo "jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, include jdk.disabled.namedCurves" | tee -a /etc/java-8-openjdk/security/java.security
 
-RUN update-alternatives --set java "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java" && \
-    update-alternatives --set javac "/usr/lib/jvm/java-8-openjdk-amd64/bin/javac"
+ENV PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin:/usr/lib/jvm/java-8-openjdk-amd64/jre/bin:$PATH
 
-USER builder
+
+USER $USERNAME
 
 CMD /entrypoint.sh

@@ -3,17 +3,24 @@ FROM docker.io/library/ubuntu:14.04
 LABEL org.opencontainers.image.description="Android AOSP container for build system"
 LABEL org.opencontainers.image.licenses=MIT
 
-ENV \
-    # user
-    UID=1000 \
-    GID=1000 \
-    # ccache specifics
-    CCACHE_SIZE=50G \
-    CCACHE_DIR=/workspace/ccache \
-    USE_CCACHE=1 \
-    CCACHE_COMPRESS=1 \
-    # other
-    LC_ALL=C
+# user
+ARG USERNAME=builder
+ENV UID=1000
+ENV GID=1000
+
+# git
+ENV GIT_USERNAME 'My Username'
+ENV GIT_MAIL 'myemail@todefine.com'
+
+# ccache specifics
+ENV USE_CCACHE=1
+ENV CCACHE_SIZE=50G
+ENV CCACHE_DIR=/ccache
+ENV CCACHE_COMPRESS=1
+ENV CCACHE_EXEC /usr/bin/ccache
+
+# for Android build process
+ENV LC_ALL=C
 
 # Install and upgrades packages
 RUN apt-get update \
@@ -50,10 +57,17 @@ RUN apt-get update \
         libxml2 \
         libxml2-utils \
         pngcrush \
+        python \
+        python-dev \
         python-pip \
         python-virtualenv \
-        python3-dev \
+        python-networkx \
+        python-markdown \
+        python3.5 \
+        python3.5-dev \
+        # python3-networkx \
         python3-pip \
+        python3-markdown \
         lzop \
         rsync \
         schedtool \
@@ -63,47 +77,102 @@ RUN apt-get update \
         xsltproc \
         zip \
         zlib1g-dev \
-        python3-dev \
-        python3-networkx \
-        python3-pip \
+        bsdmainutils \
+        cgpt \
+        clang \
+        cron \
+        kmod \
+        lsof \
+        maven \
+        procps \
+        xdelta3 \
+        yasm \
         # For users
         software-properties-common \
         sudo \
         wget \
-        bash-completion
+        bash-completion \
+        nano \
+        vim \
+        emacs \
+    && apt-get clean autoclean \
+    && apt-get autoremove --yes \
+    && rm -rf /var/lib/{apt,dpkg,cache,log}
 
-# Install repo v2 & v1
-RUN curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > /usr/bin/repo \
-    && chmod a+x /usr/bin/repo && \
-    curl "https://android.googlesource.com/tools/repo/+/refs/heads/repo-1/repo?format=TEXT" | base64 -d > /usr/bin/repo-v1 && \
-    chmod a+x /usr/bin/repo-v1
+# Install python 3.6
+RUN export PYTHON36_INSTALL_DIR=$(mktemp --directory) \
+    && cd $PYTHON36_INSTALL_DIR \
+    && wget -O $PYTHON36_INSTALL_DIR/Python-3.6.15.tgz https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz \
+    && tar -xvf $PYTHON36_INSTALL_DIR/Python-3.6.15.tgz --directory $PYTHON36_INSTALL_DIR \
+    && $PYTHON36_INSTALL_DIR/Python-3.6.15/configure --enable-optimizations \
+    && ls -l $PYTHON36_INSTALL_DIR/Python-3.6.15 \
+    && make -j $(grep -c ^processor /proc/cpuinfo) install \
+    && rm -rf $PYTHON36_INSTALL_DIR \
+    && update-alternatives --install /usr/bin/python python /usr/bin/python2 1 \
+    && update-alternatives --install /usr/bin/python python /usr/local/bin/python3.6 2
 
-# RUN pip install virtualenv
+# Install repo v2 (force get latest version) & v1
+RUN curl -o /usr/bin/repo http://commondatastorage.googleapis.com/git-repo-downloads/repo \
+    && chmod a+x /usr/bin/repo \
+    && curl "https://android.googlesource.com/tools/repo/+/refs/heads/repo-1/repo?format=TEXT" | base64 -d > /usr/bin/repo-v1 \
+    && chmod a+x /usr/bin/repo-v1 \
+    && mkdir /tmp/repo_update \
+    && cd /tmp/repo_update \
+    && repo init > /tmp/repo_update/repo_init.log 2>&1; exit 0
+
+RUN cat /tmp/repo_update/repo_init.log \
+    && if grep -q "new version" /tmp/repo_update/repo_init.log; then \
+        cp /tmp/repo_update/.repo/repo/repo /usr/bin/repo; \
+        chmod a+x /usr/bin/repo; \
+    fi \
+    && rm -rf /tmp/repo_update /.repo
 
 # Create user
-RUN groupadd --gid $GID --force builder \
-    && useradd --gid $GID --uid $UID --non-unique builder \
-    && mkdir /home/builder \
-    && chown -R builder:builder /home/builder \
-    && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
+RUN groupadd --gid $GID --force $USERNAME \
+    && useradd --uid $UID --gid $GID --non-unique --create-home $USERNAME \
+    && echo "${USERNAME} ALL=NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 "/etc/sudoers.d/${USERNAME}"
+    # && export USER=$USERNAME
+    # && export USER=$USERNAME >> /home/${USERNAME}/.bashrc
+
+ENV USER=$USERNAME
+ENV HOME="/home/${USERNAME}"
+
+# Create peristance bash history
+RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
+    && mkdir /commandhistory \
+    && touch /commandhistory/.bash_history \
+    && chown -R ${USERNAME}:${GID} /commandhistory \
+    && echo "$SNIPPET" >> "/home/${USERNAME}/.bashrc"
+
+# Create ccache directory
+RUN mkdir $CCACHE_DIR \
+    && chown -R ${USERNAME}:${GID} $CCACHE_DIR
 
 # Create the working directory
 RUN mkdir /workspace \
-    && chown -R builder:builder /workspace
+    && chown -R ${USERNAME}:${GID} /workspace
 
 WORKDIR /workspace
 
-# Configure Python version
-RUN virtualenv --system-site-packages venv
-#    && ln -s /usr/lib/python2.7/* /workspace/venv/lib/python2.7/ \
-#    && source venv/bin/activate
+# Add possibility to switch different Python version
+RUN pip3 install virtualenv --no-cache-dir \
+    && mkdir /python \
+    && cd /python \
+    && virtualenv /python/2 --python=/usr/bin/python2 \
+    && virtualenv /python/3 --python=/usr/local/bin/python3.6
 
 # Set the entrypoint command
 COPY ./assets/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh \
-    && chown -R builder:builder /entrypoint.sh
+    && chown -R ${USERNAME}:${GID} /entrypoint.sh
 
-USER builder
+USER $USERNAME
+
+# Install Oh My BASH
+RUN bash \
+    -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" \
+    --unattended
 
 CMD /entrypoint.sh

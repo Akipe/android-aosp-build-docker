@@ -3,17 +3,24 @@ FROM docker.io/library/ubuntu:10.04
 LABEL org.opencontainers.image.description="Android AOSP container for build system"
 LABEL org.opencontainers.image.licenses=MIT
 
-ENV \
-    # user
-    UID=1000 \
-    GID=1000 \
-    # ccache specifics
-    CCACHE_SIZE=50G \
-    CCACHE_DIR=/workspace/ccache \
-    USE_CCACHE=1 \
-    CCACHE_COMPRESS=1 \
-    # other
-    LC_ALL=C
+# user
+ARG USERNAME=builder
+ENV UID=1000
+ENV GID=1000
+
+# git
+ENV GIT_USERNAME 'My Username'
+ENV GIT_MAIL 'myemail@todefine.com'
+
+# ccache specifics
+ENV USE_CCACHE=1
+ENV CCACHE_SIZE=50G
+ENV CCACHE_DIR=/ccache
+ENV CCACHE_COMPRESS=1
+ENV CCACHE_EXEC /usr/bin/ccache
+
+# for Android build process
+ENV LC_ALL=C
 
 # Change packages repositories
 RUN rm /etc/apt/sources.list \
@@ -49,11 +56,14 @@ RUN echo "udev hold" | dpkg --set-selections \
         libgl1-mesa-dev \
         mingw32 \
         tofrodos \
+        python \
+        python-dev \
+        python-pip \
+        python-virtualenv \
+        python-networkx \
         python-markdown \
         libxml2-utils \
         xsltproc \
-        python-pip \
-        python-virtualenv \
         ccache \
         libwxgtk2.6-dev \
         libesd0-dev \
@@ -62,23 +72,45 @@ RUN echo "udev hold" | dpkg --set-selections \
         sudo \
         wget \
         p7zip-full \
-        bash-completion && \
-    ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
+        bash-completion  \
+        nano \
+        vim \
+        emacs \
+    && apt-get clean autoclean \
+    && apt-get autoremove --yes \
+    && ls -al /var/lib/ \
+    && rm -rf /var/lib/{apt,dpkg,cache,log} \
+    && ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
 
 # Install repo v1
 RUN curl "https://android.googlesource.com/tools/repo/+/refs/heads/repo-1/repo?format=TEXT" | base64 -d > /usr/bin/repo && \
     chmod a+x /usr/bin/repo
 
 # Create user
-RUN groupadd --gid $GID --force builder \
-    && useradd --gid $GID --uid $UID --non-unique builder \
-    && mkdir /home/builder \
-    && chown -R builder:builder /home/builder \
-    && echo "builder ALL=NOPASSWD: ALL" > /etc/sudoers.d/builder
+RUN groupadd --gid $GID --force $USERNAME \
+    && useradd --uid $UID --gid $GID --non-unique --create-home $USERNAME \
+    && echo "${USERNAME} ALL=NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 "/etc/sudoers.d/${USERNAME}"
+    # && export USER=$USERNAME
+    # && export USER=$USERNAME >> /home/${USERNAME}/.bashrc
+
+ENV USER=$USERNAME
+ENV HOME="/home/${USERNAME}"
+
+# Create peristance bash history
+RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
+    && mkdir /commandhistory \
+    && touch /commandhistory/.bash_history \
+    && chown -R ${USERNAME}:${GID} /commandhistory \
+    && echo "$SNIPPET" >> "/home/${USERNAME}/.bashrc"
+
+# Create ccache directory
+RUN mkdir $CCACHE_DIR \
+    && chown -R ${USERNAME}:${GID} $CCACHE_DIR
 
 # Create the working directory
 RUN mkdir /workspace \
-    && chown -R builder:builder /workspace
+    && chown -R ${USERNAME}:${GID} /workspace
 
 WORKDIR /workspace
 
@@ -86,6 +118,13 @@ WORKDIR /workspace
 COPY ./assets/entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh \
-    && chown -R builder:builder /entrypoint.sh
+    && chown -R ${USERNAME}:${GID} /entrypoint.sh
+
+USER $USERNAME
+
+# Install Oh My BASH
+RUN bash \
+    -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" \
+    --unattended
 
 CMD /entrypoint.sh
