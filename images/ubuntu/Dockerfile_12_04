@@ -116,7 +116,6 @@ RUN export PYTHON36_INSTALL_DIR=$(mktemp --directory) \
     && wget -O $PYTHON36_INSTALL_DIR/Python-3.6.15.tgz https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz \
     && tar -xvf $PYTHON36_INSTALL_DIR/Python-3.6.15.tgz --directory $PYTHON36_INSTALL_DIR \
     && $PYTHON36_INSTALL_DIR/Python-3.6.15/configure --enable-optimizations \
-    && ls -l $PYTHON36_INSTALL_DIR/Python-3.6.15 \
     && make -j $(grep -c ^processor /proc/cpuinfo) install \
     && rm -rf $PYTHON36_INSTALL_DIR \
     && update-alternatives --install /usr/bin/python python /usr/bin/python2 1 \

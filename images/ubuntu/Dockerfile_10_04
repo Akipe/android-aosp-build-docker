@@ -78,7 +78,6 @@ RUN echo "udev hold" | dpkg --set-selections \
         emacs \
     && apt-get clean autoclean \
     && apt-get autoremove --yes \
-    && ls -al /var/lib/ \
     && rm -rf /var/lib/{apt,dpkg,cache,log} \
     && ln -s /usr/lib32/mesa/libGL.so.1 /usr/lib32/mesa/libGL.so
 
