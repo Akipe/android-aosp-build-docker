@@ -121,9 +121,4 @@ RUN chmod +x /entrypoint.sh \
 
 USER $USERNAME
 
-# Install Oh My BASH
-RUN bash \
-    -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" \
-    --unattended
-
 CMD /entrypoint.sh
