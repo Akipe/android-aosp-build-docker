@@ -165,6 +165,8 @@ COPY ./assets/entrypoint.sh /
 RUN chmod +x /entrypoint.sh \
     && chown -R ${USERNAME}:${GID} /entrypoint.sh
 
+USER $USERNAME
+
 # Install Oh My BASH
 RUN bash \
     -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" \
