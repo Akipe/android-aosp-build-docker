@@ -106,7 +106,7 @@ RUN yay -Syy --noprogressbar --needed --noconfirm \
         aosp-devel \
         lineageos-devel \
         wxgtk2-dev \
-        python2-bin \
+        python2 \
         # python2-pyopenssl \
         # python2-pip \
     && sudo pacman -Scc
