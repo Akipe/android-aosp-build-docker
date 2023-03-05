@@ -13,3 +13,4 @@ Resources that I used for creating this images :
 - <https://source.android.com/docs/setup/create/jack>
 - <https://github.com/jfloff/docker-lineageos>
 - <https://github.com/lineageos4microg/docker-lineage-cicd>
+- <https://github.com/openstf/docker-aosp>
