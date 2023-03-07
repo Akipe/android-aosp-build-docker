@@ -84,10 +84,15 @@ docker build \
     --label "org.opencontainers.image.revision=$BUILD_COMMIT_HASH" \
     --label "org.opencontainers.image.created=$BUILD_DATE_RFC3339" \
     --tag android-aosp-build:android-2.2 \
+    --tag android-aosp-build:android-2.2-ubuntu-10.04 \
     --tag android-aosp-build:android-2.1 \
+    --tag android-aosp-build:android-2.1-ubuntu-10.04 \
     --tag android-aosp-build:android-2.0 \
+    --tag android-aosp-build:android-2.0-ubuntu-10.04 \
     --tag android-aosp-build:android-1.6 \
+    --tag android-aosp-build:android-1.6-ubuntu-10.04 \
     --tag android-aosp-build:android-1.5 \
+    --tag android-aosp-build:android-1.5-ubuntu-10.04 \
     ./images/android && \
 echo "Building Android 2.3.x to 4.4.x (Ubuntu 12.04)" && \
 docker build \
@@ -96,7 +101,9 @@ docker build \
     --label "org.opencontainers.image.revision=$BUILD_COMMIT_HASH" \
     --label "org.opencontainers.image.created=$BUILD_DATE_RFC3339" \
     --tag android-aosp-build:android-4 \
+    --tag android-aosp-build:android-4-ubuntu-12.04 \
     --tag android-aosp-build:android-2.3 \
+    --tag android-aosp-build:android-2.3-ubuntu-12.04 \
     ./images/android && \
 echo "Building Android 5.0 (Ubuntu 12.04)" && \
 docker build \
@@ -105,6 +112,7 @@ docker build \
     --label "org.opencontainers.image.revision=$BUILD_COMMIT_HASH" \
     --label "org.opencontainers.image.created=$BUILD_DATE_RFC3339" \
     --tag android-aosp-build:android-5 \
+    --tag android-aosp-build:android-5-ubuntu-12.04 \
     ./images/android && \
 echo "Building Android 6.0 (Ubuntu 14.04)" && \
 docker build \
@@ -113,6 +121,7 @@ docker build \
     --label "org.opencontainers.image.revision=$BUILD_COMMIT_HASH" \
     --label "org.opencontainers.image.created=$BUILD_DATE_RFC3339" \
     --tag android-aosp-build:android-6 \
+    --tag android-aosp-build:android-6-ubuntu-14.04 \
     ./images/android && \
 echo "Building Android 7.0 to 8.0 (Ubuntu 18.04)" && \
 docker build \
