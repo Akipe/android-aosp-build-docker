@@ -174,10 +174,10 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: |
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-arch
-            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-arch
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-arch
-            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-arch
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-7-archlinux
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-8-archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-7-archlinux
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-8-archlinux
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -225,15 +225,25 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.2
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.2-ubuntu-10.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.1
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.1-ubuntu-10.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.0
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.0-ubuntu-10.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-1.6
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-1.6-ubuntu-10.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-1.5
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-1.5-ubuntu-10.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.2
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.2-ubuntu-10.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.1
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.1-ubuntu-10.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.0
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.0-ubuntu-10.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-1.6
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-1.6-ubuntu-10.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-1.5
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-1.5-ubuntu-10.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -253,9 +263,13 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-4
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-4-ubuntu-12.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.3
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-2.3-ubuntu-12.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-4
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-4-ubuntu-12.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.3
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-2.3-ubuntu-12.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -275,7 +289,9 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-5
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-5-ubuntu-12.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-5
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-5-ubuntu-12.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -295,7 +311,9 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-6
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-6-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-6
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-6-ubuntu-14.04
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
             org.opencontainers.image.authors="${{ secrets.OWNER_NAME }} <${{ secrets.OWNER_EMAIL }}>"
@@ -367,6 +385,7 @@ jobs:
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-11-ubuntu-18.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-12-ubuntu-18.04
             ${{ secrets.USERNAME_DH }}/android-aosp-build:android-13-ubuntu-18.04
+            ${{ secrets.USERNAME_DH }}/android-aosp-build:android-latest-ubuntu-18.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-9-ubuntu-18.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-10-ubuntu-18.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-11-ubuntu-18.04
@@ -414,6 +433,8 @@ jobs:
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-12-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-13-ubuntu-14.04
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-latest
+            ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:android-latest-ubuntu-14.04
             ghcr.io/${{ env.repository_owner_lc }}/android-aosp-build:latest
           labels: |
             org.opencontainers.image.url=https://github.com/${{ github.repository }}

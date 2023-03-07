@@ -13,7 +13,8 @@ USER root
 COPY ./assets/jdk-6u45-linux-x64.bin /tmp
 
 # Install java jdk 6
-RUN apt-get remove --yes \
+RUN echo "6b493aeab16c940cae9e3d07ad2a5c5684fb49cf06c5d44c400c7993db0d12e8  /tmp/jdk-6u45-linux-x64.bin" | sha256sum --strict --check - \
+    && apt-get remove --yes \
         openjdk-* \
         icedtea-* \
     && export JAVA_INSTALL_DIR=$(mktemp --directory) \
@@ -31,4 +32,4 @@ RUN apt-get remove --yes \
 
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

@@ -18,4 +18,4 @@ RUN pacman -Syyu --noprogressbar --noconfirm --needed \
 
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

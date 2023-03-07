@@ -23,7 +23,6 @@ RUN apt-get update \
 
 ENV PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin:/usr/lib/jvm/java-8-openjdk-amd64/jre/bin:$PATH
 
-
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

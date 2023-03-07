@@ -1,5 +1,7 @@
 #!/bin/sh
 
+trap "exit" TERM
+
 # Set correct user settings
 sudo usermod --uid $UID --gid $GID $USERNAME
 sudo groupmod --gid $GID $USERNAME
@@ -28,4 +30,8 @@ fi
 # but some programs (like jack toolchain) rely on it
 export USER="$(whoami)"
 
-tail -f /dev/null
+while true
+do
+    echo "Hi, I'm bash !"
+    sleep 1
+done
