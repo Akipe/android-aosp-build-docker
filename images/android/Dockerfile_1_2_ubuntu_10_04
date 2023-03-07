@@ -13,7 +13,8 @@ USER root
 COPY ./assets/jdk-1_5_0_22-linux-amd64.bin /tmp
 
 # Install java jdk 5
-RUN apt-get remove --yes \
+RUN echo "5383e5e28872a1c7e75e9df40d931797e8bef1e11d49f662492da2b75f7cc3c0  /tmp/jdk-1_5_0_22-linux-amd64.bin" | sha256sum --strict --check - \
+    && apt-get remove --yes \
         openjdk-* \
         icedtea-* \
     && export JAVA_INSTALL_DIR=$(mktemp --directory) \
