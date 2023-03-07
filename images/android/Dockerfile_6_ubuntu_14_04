@@ -25,4 +25,4 @@ RUN update-alternatives --set java "/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/ja
 
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

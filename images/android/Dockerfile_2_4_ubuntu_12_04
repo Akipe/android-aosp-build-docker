@@ -31,4 +31,4 @@ RUN apt-get remove --yes \
 
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

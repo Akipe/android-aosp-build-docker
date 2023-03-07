@@ -12,16 +12,6 @@ ENV ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
 USER root
 
 # Install openjdk 8
-# RUN wget -O /tmp/openjdk-8-jre-headless_8u45-b14-1_amd64.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre-headless_8u45-b14-1_amd64.deb && \
-#     wget -O /tmp/openjdk-8-jre_8u45-b14-1_amd64.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jre_8u45-b14-1_amd64.deb && \
-#     wget -O /tmp/openjdk-8-jdk_8u45-b14-1_amd64.deb http://old-releases.ubuntu.com/ubuntu/pool/universe/o/openjdk-8/openjdk-8-jdk_8u45-b14-1_amd64.deb && \
-#     cd /tmp && \
-#     dpkg -i \
-#         openjdk-8-jre-headless_8u45-b14-1_amd64.deb \
-#         openjdk-8-jre_8u45-b14-1_amd64.deb \
-#         openjdk-8-jdk_8u45-b14-1_amd64.deb || true && \
-#     apt-get update && \
-#     apt-get -f --yes install
 RUN export JAVA_INSTALL_DIR=$(mktemp --directory) \
     && curl -o $JAVA_INSTALL_DIR/jdk8.tgz https://android.googlesource.com/platform/prebuilts/jdk/jdk8/+archive/master.tar.gz \
     && cd $JAVA_INSTALL_DIR \
@@ -33,4 +23,4 @@ ENV PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin:/usr/lib/jvm/java-8-openjdk-amd64
 
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

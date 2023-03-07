@@ -90,8 +90,6 @@ RUN groupadd --gid $GID --force $USERNAME \
     && useradd --uid $UID --gid $GID --non-unique --create-home $USERNAME \
     && echo "${USERNAME} ALL=NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 "/etc/sudoers.d/${USERNAME}"
-    # && export USER=$USERNAME
-    # && export USER=$USERNAME >> /home/${USERNAME}/.bashrc
 
 ENV USER=$USERNAME
 ENV HOME="/home/${USERNAME}"
@@ -121,4 +119,4 @@ RUN chmod +x /entrypoint.sh \
 
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

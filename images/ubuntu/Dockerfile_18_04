@@ -132,8 +132,6 @@ RUN groupadd --gid $GID --force $USERNAME \
     && useradd --uid $UID --gid $GID --non-unique --create-home $USERNAME \
     && echo "${USERNAME} ALL=NOPASSWD: ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 "/etc/sudoers.d/${USERNAME}"
-    # && export USER=$USERNAME
-    # && export USER=$USERNAME >> /home/${USERNAME}/.bashrc
 
 ENV USER=$USERNAME
 ENV HOME="/home/${USERNAME}"
@@ -175,4 +173,4 @@ RUN bash \
     -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" \
     --unattended
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

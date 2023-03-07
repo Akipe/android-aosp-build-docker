@@ -8,4 +8,4 @@ LABEL org.opencontainers.image.licenses=MIT
 
 USER $USERNAME
 
-CMD /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
