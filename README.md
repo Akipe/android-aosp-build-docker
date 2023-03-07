@@ -51,16 +51,24 @@ You can choose also choose which distribution to use. You can find more informat
 
 ### Run with `docker`
 
-Here is an example of how to start the container (*change `/PATH/ANDROID_SOURCES` with your Android path*) :
+Here is the minimal command for starting the container (*change `/PATH/ANDROID_SOURCES` with your Android path*) :
 
 ```bash
-docker run -d -v /PATH/ANDROID_SOURCES:/workspace -e UID=$UID --name builder-android-13 ak1pe/android-aosp-build:android-13
+docker run \
+    -d \ # run in background
+    -v /PATH/ANDROID_SOURCES:/workspace \ # mount your local directory
+    -e UID=$UID \ # for using same id as your host user
+    -e GID=$UID \ # same for group
+    -e GIT_USERNAME="My Name" \ # need for repo command
+    -e GIT_MAIL="my@mail.com" \ # same as before
+    --name builder-android-13 \ # optional : set any name for simpler manage the container
+    ak1pe/android-aosp-build:android-13 # choose your android version
 ```
 
 Then you can control the shell :
 
 ```bash
-docker exec -it builder-android-13 bash
+docker exec -it builder-android-13 bash # "builder-android-13" is what we define with "--name"
 ```
 
 Now you can execute any commands for building.
@@ -69,7 +77,7 @@ Now you can execute any commands for building.
 
 ### Run with `docker compose`
 
-Here is an other example of how to define your `docker-compose.yml` :
+Here is the same minimal configuration with `docker-compose.yml` :
 
 ```yml
 # docker-compose.yml
@@ -107,20 +115,20 @@ Now you can execute any commands for building.
 
 ## Switch Python version
 
-By default your will have Python 3 used.
+By default your will have Python 3 used when available.
 
 You will need to switch to Python 2 in relation to certain moments of the constructions, for example before building most Android versions.
 
 When you are connect to the shell, you can switch with this commands :
 
-- Python 3
-```bash
-source /python/2/bin/activate
-```
-
 - Python 2
 ```bash
 source /python/3/bin/activate
+```
+
+- Python 3
+```bash
+source /python/2/bin/activate
 ```
 
 - Revert back
@@ -157,7 +165,7 @@ deactivate
 
 These project is under [MIT License](LICENSE), except for files [jdk-6u45-linux-x64.bin](images/android/assets/jdk-6u45-linux-x64.bin) & [jdk-1_5_0_22-linux-amd64.bin](images/android/assets/jdk-1_5_0_22-linux-amd64.bin) which are under the [Oracle Binary Code License Agreement for Java SE ](https://www.oracle.com/downloads/licenses/java-se-archive-license.html) license.
 
-When using you use these images version :
+When you use these images version :
 
 - `android-4 `
 - `android-2.3`
