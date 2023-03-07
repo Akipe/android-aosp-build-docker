@@ -38,7 +38,7 @@ You must choose for which version of Android you will have to compile when you w
 - `android-1.6`
 - `android-1.5`
 
-Some images use same image :
+Some tags share same image :
 
 - from `android-latest` to `android-9`
 - from `android-8` to `android-7`
