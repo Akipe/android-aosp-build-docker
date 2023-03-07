@@ -158,7 +158,6 @@ deactivate
 - How to enter inside the container ? [doc/shell.md](./doc/shell.md)
 - How to use it with `docker compose` ? [doc/docker-compose.md](./doc/docker-compose.md)
 - How to build myself ? [doc/build.md](./doc/build.md)
-- How to change Java SDK version ? [doc/java.md](./doc/java.md)
 - What resources I used : [doc/external_resources.md](./doc/external_resources.md)
 
 ## License
