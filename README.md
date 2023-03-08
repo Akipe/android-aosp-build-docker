@@ -166,7 +166,7 @@ These project is under [MIT License](LICENSE), except for files [jdk-6u45-linux-
 
 When you use these images version :
 
-- `android-4 `
+- `android-4`
 - `android-2.3`
 - `android-2.2`
 - `android-2.1`
