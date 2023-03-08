@@ -38,7 +38,7 @@ You must choose for which version of Android you will have to compile when you w
 - `android-1.6`
 - `android-1.5`
 
-Some images use same image :
+Some tags share same image :
 
 - from `android-latest` to `android-9`
 - from `android-8` to `android-7`
@@ -158,7 +158,6 @@ deactivate
 - How to enter inside the container ? [doc/shell.md](./doc/shell.md)
 - How to use it with `docker compose` ? [doc/docker-compose.md](./doc/docker-compose.md)
 - How to build myself ? [doc/build.md](./doc/build.md)
-- How to change Java SDK version ? [doc/java.md](./doc/java.md)
 - What resources I used : [doc/external_resources.md](./doc/external_resources.md)
 
 ## License
@@ -167,7 +166,7 @@ These project is under [MIT License](LICENSE), except for files [jdk-6u45-linux-
 
 When you use these images version :
 
-- `android-4 `
+- `android-4`
 - `android-2.3`
 - `android-2.2`
 - `android-2.1`
